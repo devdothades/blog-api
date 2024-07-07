@@ -57,9 +57,56 @@ const createArticle = async (req, res) => {
     }
 };
 
-const deleteArticle = async (req, res) => {};
+const deleteArticle = async (req, res) => {
+    const { id } = req.params;
 
-const updateArticle = async (req, res) => {};
+    try {
+        const query = await pool.query("DELETE FROM BlogArticle WHERE id=$1", [
+            id,
+        ]);
+        query;
+        res.status(200).json({ msg: "Successfully Deleted" });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
+const updateArticle = async (req, res) => {
+    const { id } = req.params;
+    const {
+        title,
+        introduction,
+        body,
+        images,
+        links,
+        conclusion,
+        author_bio,
+        comments,
+        tags,
+    } = req.body;
+
+    try {
+        const query = await pool.query(
+            "UPDATE BlogArticle SET title=$1, introduction=$2, body=$3, images=$4, links=$5, conclusion=$6, author_bio=$7, comments=$8, tags=$9 WHERE id=$10 RETURNING *",
+            [
+                title,
+                introduction,
+                body,
+                images,
+                links,
+                conclusion,
+                author_bio,
+                comments,
+                tags,
+                id,
+            ]
+        );
+
+        res.status(200).json(query.rows[0]);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
 
 export {
     getAllArticle,
