@@ -10,9 +10,9 @@ import {
 const router = Router();
 
 router.get("/", getAllArticle);
-router.get("/", getSingleArticle);
+router.get("/:id", getSingleArticle);
 router.post("/", createArticle);
-router.delete("/", deleteArticle);
-router.patch("/", updateArticle);
+router.delete("/:id", deleteArticle);
+router.patch("/:id", updateArticle);
 
 export default router;
