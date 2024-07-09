@@ -1,12 +1,35 @@
 import pool from "../model/pool.js";
 
 const getAllArticle = async (req, res) => {
-    try {
-        const query = await pool.query("SELECT * FROM BlogArticle");
-        res.status(200).json(query.rows);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
+    const { date, tags } = req.query;
+
+    if (date) {
+        try {
+            const query = await pool.query(
+                "SELECT * FROM BlogArticle WHERE CreatedAt >= $1 AND CreatedAt < $1::date + 1",
+                [date]
+            );
+            res.status(200).json(query.rows);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    } else if (tags)
+        try {
+            const query = await pool.query(
+                "SELECT * FROM BlogArticle WHERE tags=$1",
+                [tags]
+            );
+            res.status(200).json(query.rows);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    else
+        try {
+            const query = await pool.query("SELECT * FROM BlogArticle");
+            res.status(200).json(query.rows);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
 };
 
 const getSingleArticle = async (req, res) => {

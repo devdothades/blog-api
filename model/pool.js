@@ -14,7 +14,7 @@ const pool = new Pool({
 
 const createTable = async () => {
     const query =
-        "CREATE TABLE BlogArticle (id  SERIAL PRIMARY KEY ,title VARCHAR(255) NOT NULL,introduction TEXT NOT NULL,body TEXT NOT NULL,images TEXT,links TEXT,conclusion TEXT,author_bio TEXT,comments TEXT,tags VARCHAR(255));";
+        "CREATE TABLE BlogArticle (id  SERIAL PRIMARY KEY ,title VARCHAR(255) NOT NULL,introduction TEXT NOT NULL,body TEXT NOT NULL,images TEXT,links TEXT,conclusion TEXT,author_bio TEXT,comments TEXT,tags VARCHAR(255), CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP);";
     console.log("created succesfully");
     try {
         await pool.connect();
@@ -26,4 +26,5 @@ const createTable = async () => {
     }
 };
 
+// createTable();
 export default pool;
