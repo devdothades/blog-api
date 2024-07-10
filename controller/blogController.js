@@ -1,4 +1,5 @@
 import pool from "../model/pool.js";
+import asyncHandler from "express-async-handler";
 
 const TAGS = [
     "SQL",
@@ -64,7 +65,7 @@ const TAGS = [
     "Cloud Computing",
 ];
 
-const getAllArticle = async (req, res) => {
+const getAllArticle = asyncHandler(async (req, res) => {
     const { date, tag } = req.query;
 
     const getAllDate = async (date) => {
@@ -115,9 +116,9 @@ const getAllArticle = async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-};
+});
 
-const getSingleArticle = async (req, res) => {
+const getSingleArticle = asyncHandler(async (req, res) => {
     const { id } = req.params;
     try {
         const query = await pool.query(
@@ -128,9 +129,9 @@ const getSingleArticle = async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-};
+});
 
-const createArticle = async (req, res) => {
+const createArticle = asyncHandler(async (req, res) => {
     const {
         title,
         introduction,
@@ -163,9 +164,9 @@ const createArticle = async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-};
+});
 
-const deleteArticle = async (req, res) => {
+const deleteArticle = asyncHandler(async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -177,9 +178,9 @@ const deleteArticle = async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-};
+});
 
-const updateArticle = async (req, res) => {
+const updateArticle = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const {
         title,
@@ -214,7 +215,7 @@ const updateArticle = async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-};
+});
 
 export {
     getAllArticle,
